@@ -1,70 +1,53 @@
-# Getting Started with Create React App
+# Yafiet Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This folder contains the React single-page application that powers Yafiet’s public profile. It consumes content from the Sanity studio in `../yafiet_back` and exposes a secure serverless contact form.
 
-## Available Scripts
+## Prerequisites
 
-In the project directory, you can run:
+- Node.js 18+
+- npm 10+
+- Access to the shared Sanity project (`nbusimoo` / `production`)
 
-### `npm start`
+## Getting started
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+npm install --cache .npm-cache
+npm start
+```
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+The development server runs on `http://localhost:3000`. Navigation is hash-aware, so links such as `/projects/:slug` continue to work even when you deep-link to a section.
 
-### `npm test`
+## Environment variables
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+A `.env` file is already checked in with safe defaults:
 
-### `npm run build`
+```
+REACT_APP_SANITY_PROJECT_ID=nbusimoo
+REACT_APP_SANITY_DATASET=production
+REACT_APP_SANITY_API_VERSION=2023-10-01
+REACT_APP_SANITY_USE_CDN=true
+SASS_SILENCE_DEPRECATIONS=legacy-js-api
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Update these values locally or in Vercel if you point the app at another dataset. The frontend never needs a Sanity write token anymore—writes go through a serverless function.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Contact form
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- The UI posts to `/api/contact`, implemented in [`api/contact.js`](api/contact.js).
+- For local submissions you can run `vercel dev` inside this folder so the function is available while `npm start` is running.
+- In production (Vercel) configure the following secrets: `SANITY_PROJECT_ID`, `SANITY_DATASET`, `SANITY_API_VERSION` (optional), and **`SANITY_API_TOKEN`** (write access to the `contact` schema only).
 
-### `npm run eject`
+## Available scripts
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+| Command | Description |
+| --- | --- |
+| `npm start` | Runs the CRA dev server. |
+| `npm test` | Launches Jest in watch mode. |
+| `npm run build` | Produces the production bundle in `build/`. |
+| `npm run eject` | Keeps CRA’s default behavior—avoid unless you need full control. |
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Production notes
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- React 18 replaces the experimental React 19 bits so the app stays on the supported Create React App stack.
+- Each data section (`About`, `Work`, `Honors`, `Skills`) now shows loading/error states so editors immediately see if content is missing.
+- A `:root` block in `src/index.css` defines the shared color + typography system to keep styling consistent between sections.
