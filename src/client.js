@@ -1,4 +1,4 @@
-import imageUrlBuilder from '@sanity/image-url';
+import { createImageUrlBuilder } from '@sanity/image-url';
 import { createClient } from '@sanity/client';
 
 const projectId = process.env.REACT_APP_SANITY_PROJECT_ID || 'nbusimoo';
@@ -12,7 +12,7 @@ export const client = createClient({
   useCdn: process.env.REACT_APP_SANITY_USE_CDN !== 'false',
 });
 
-const builder = imageUrlBuilder(client);
+const builder = createImageUrlBuilder(client);
 
 export const urlFor = (source) => builder.image(source);
 
