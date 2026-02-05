@@ -1,7 +1,6 @@
 {
   "name": "yafiet_front",
   "version": "0.1.0",
-  "homepage": "https://yaphet91.github.io/my-profile",
   "private": true,
   "dependencies": {
     "@portabletext/react": "^6.0.2",
