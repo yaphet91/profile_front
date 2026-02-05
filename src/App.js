@@ -67,11 +67,25 @@ const ProjectDetailPage = () => (
   </div>
 );
 
+const RedirectToHome = ({ section }) => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const state = section ? { targetSection: section } : undefined;
+    navigate('/', { replace: true, state });
+  }, [navigate, section]);
+  return null;
+};
+
 const App = () => (
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route
+        path="/my-profile"
+        element={<RedirectToHome section="my-profile" />}
+      />
       <Route path="/projects/:slug" element={<ProjectDetailPage />} />
+      <Route path="*" element={<RedirectToHome />} />
     </Routes>
   </BrowserRouter>
 );
