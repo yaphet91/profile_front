@@ -1,13 +1,19 @@
-import React, { useEffect } from 'react';
-import { BrowserRouter, Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import React, { useEffect } from "react";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  useLocation,
+  useNavigate,
+} from "react-router-dom";
 
-import { About, Footer, Header, Honors, Skills, Work } from './container';
-import { Navbar } from './components';
-import ProjectDetail from './pages/ProjectDetail/ProjectDetail';
-import './App.scss';
+import { About, Footer, Header, Honors, Skills, Work } from "./container";
+import { Navbar } from "./components";
+import ProjectDetail from "./pages/ProjectDetail/ProjectDetail";
+import "./App.scss";
 
 const scrollToSection = (sectionId) => {
-  if (typeof document === 'undefined' || !sectionId) {
+  if (typeof document === "undefined" || !sectionId) {
     return false;
   }
 
@@ -16,7 +22,7 @@ const scrollToSection = (sectionId) => {
     return false;
   }
 
-  target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  target.scrollIntoView({ behavior: "smooth", block: "start" });
   return true;
 };
 
@@ -26,7 +32,7 @@ const HomePage = () => {
 
   useEffect(() => {
     const stateTarget = location.state?.targetSection;
-    const hashTarget = location.hash ? location.hash.replace('#', '') : '';
+    const hashTarget = location.hash ? location.hash.replace("#", "") : "";
     const targetSection = stateTarget || hashTarget;
 
     if (!targetSection) {
@@ -35,14 +41,14 @@ const HomePage = () => {
 
     const didScroll = scrollToSection(targetSection);
 
-    if (didScroll && typeof window !== 'undefined') {
+    if (didScroll && typeof window !== "undefined") {
       window.requestAnimationFrame(() => {
-        window.history.replaceState(null, '', `#${targetSection}`);
+        window.history.replaceState(null, "", `#${targetSection}`);
       });
     }
 
     if (stateTarget) {
-      navigate('.', { replace: true, state: null });
+      navigate(".", { replace: true, state: null });
     }
   }, [location, navigate]);
 
@@ -71,7 +77,7 @@ const RedirectToHome = ({ section }) => {
   const navigate = useNavigate();
   useEffect(() => {
     const state = section ? { targetSection: section } : undefined;
-    navigate('/', { replace: true, state });
+    navigate("/", { replace: true, state });
   }, [navigate, section]);
   return null;
 };
